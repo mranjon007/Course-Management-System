@@ -1,0 +1,104 @@
+﻿@{
+    ViewBag.Title = "UnassignTeacher";
+}
+
+<h2>Unassign Teacher from Courses</h2>
+
+@using (Html.BeginForm("UnassignTeacher", "Teacher", FormMethod.Post, new { @Id = "UnassignTeacherForm" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <div class="col-md-12">
+            <input type="submit" value="Unassign Teacher" id="Unassign" name="Unassign" class="btn btn-default" />
+        </div>
+    </div>
+    <div style="height: 200px">
+        
+    </div>
+    
+}
+
+
+<div id="UpdateDialog">
+    Are You Sure That You want To unassign all the teachers Form the courses?
+</div>
+<div id="message" style="color: green; font-weight: bold"></div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/Scripts/jquery-2.2.3.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery-ui-1.11.4.js"></script>
+    <link href="~/Content/themes/base/all.css" rel="stylesheet" />
+
+    <script>
+    $(document).ready(function() {
+
+
+        $('#UpdateDialog').dialog( {
+            title: "Unassign Teachers!!!",
+            draggable: false,
+            dialogClass: "no-close",
+            width: 350,
+            height: 250,
+            resizable: false,
+            modal: true,
+            closeOnEscape: false,
+            autoOpen: false,
+            buttons: {
+                'Ok': function () {
+                    UnassingTeachers();
+                },
+                'Cancel': function() {
+                    $('#UpdateDialog').dialog('close');
+                },
+            },
+
+        });
+
+
+
+
+
+        function UnassingTeachers() {
+
+            var json = {};
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("UnassignTeacherAjaxCall", "Teacher")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+
+                    if (data.toString() == "") {
+                        
+                        $("#message").append("Sorry, Unassigned Failed for some unavoidable reason!!!");
+
+                    } else {
+                        
+                        $("#message").append(data.toString());
+
+                    }
+                    $('#UpdateDialog').dialog('close');
+                }
+            });
+        }
+
+
+        $('#UnassignTeacherForm').submit(function (e) {
+            e.preventDefault();
+            $('#UpdateDialog').dialog('open');
+
+        });
+
+
+    });
+
+        $('#message').delay(8000).fadeOut();
+
+    </script>
+
+}
+

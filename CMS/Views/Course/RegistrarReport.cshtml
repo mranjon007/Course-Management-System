@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "RegistrarReport";
+}
+
+<h2>RegistrarReport</h2>
+
+<table class="table-bordered">
+    <tr>
+        @*<th rowspan=2>Serial</th>*@
+        <th rowspan=2>Term</th>
+        <th colspan=2>Course</th>
+        <th rowspan=2>Section</th>
+        <th rowspan=2>Faculty</th>
+        <th rowspan=2>Time</th>
+    </tr>
+    <tr>
+        <th>Code</th>
+        <th>Title</th>
+    </tr>
+    @Html.Raw(ViewBag.html)
+
+
+
+</table>
